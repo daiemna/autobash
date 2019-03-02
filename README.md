@@ -93,9 +93,10 @@ PROJECTS=(
 * TODO: Anaconda aliases
 * TODO: Project aliases
 * TODO: Project conda aliases
-
-
 ### Step 7: Run the script
+in user section export `CONDA_DIR` to the base dir of your anaconda.
+
+### Step 8: Run the script
 Run the script by running the following:
 ```
 cd autobash
