@@ -93,7 +93,7 @@ PROJECTS=(
 * TODO: Anaconda aliases
 * TODO: Project aliases
 * TODO: Project conda aliases
-### Step 7: Run the script
+### Step 7: Conda installation path
 in user section export `CONDA_DIR` to the base dir of your anaconda.
 
 ### Step 8: Run the script
