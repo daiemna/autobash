@@ -1,0 +1,13 @@
+#/usr/bin/env bash
+_anaconda_envs_autocompelte()
+{
+    if [ "${#COMP_WORDS[@]}" != "2" ]; then
+        return
+    fi
+    COMPREPLY=($(ls $CONDA_DIR/envs/))
+    if [ ${#COMP_WORDS[1]} -ne 0 ]; then
+        COMPREPLY=($(compgen -W "$(ls $CONDA_DIR/envs/)" "${COMP_WORDS[1]}"))
+    fi
+}
+
+complete -F _anaconda_envs_autocompelte activate
