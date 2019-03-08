@@ -84,5 +84,5 @@ gittagdelete() {
     echo "Usage: gittagdelete 0.5.3"
   fi
 }
-
+source ~/.terrform-compspec
 ############################### AUTOBASH - END #################################
