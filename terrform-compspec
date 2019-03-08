@@ -5,9 +5,9 @@ _anaconda_envs_autocompelte()
         return
     fi
     # opt_find = 'terraform --help | grep "    [a-z]*-*[a-z]*" | sed -E "s/( *[A-Z][a-z]* [a-z ()]*)|(^    )//g"'
-    COMPREPLY=($(terraform --help | grep "    [a-z]*-*[a-z]*" | sed -E "s/( *[A-Z][a-z]* [a-z ()]*)|(^    )//g"))
+    COMPREPLY=($(terraform --help | grep "    [a-z]*-*[a-z]*" | sed -E "s/( *[A-Z][a-z]* [a-z ()]*)|(^    )|([A-Z][a-z]*-?[a-z]* ?[a-z]*)//g"))
     if [ ${#COMP_WORDS[1]} -ne 0 ]; then
-        COMPREPLY=($(compgen -W "$(terraform --help | grep "    [a-z]*-*[a-z]*" | sed -E "s/( *[A-Z][a-z]* [a-z ()]*)|(^    )//g")" "${COMP_WORDS[1]}"))
+        COMPREPLY=($(compgen -W "$(terraform --help | grep "    [a-z]*-*[a-z]*" | sed -E "s/( *[A-Z][a-z]* [a-z ()]*)|(^    )|([A-Z][a-z]*-?[a-z]* ?[a-z]*)//g")" "${COMP_WORDS[1]}"))
     fi
 }
 
