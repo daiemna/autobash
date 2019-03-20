@@ -1,0 +1,39 @@
+#!/bin/bash
+
+terraform_ws=$1
+user=$2
+
+PATH="/home/dna/.autobash/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/dna/.fzf/bin"
+
+pushd $terraform_ws > /dev/null
+
+droplet_running=$(/usr/bin/terraform show | grep digitalocean_droplet | cut -d'.' -f2)
+droplet_names=$(echo $droplet_running | paste -sd "," -)
+
+if [ -z "$user" ]; then
+    user_login=""
+else
+    user_login=$(who | cut -d' ' -f1 | grep $user)
+fi
+
+
+echo "droplets {"$droplet_running"}"
+echo "user_login : "$user_login
+
+if [ -z "$droplet_running" ] && [ -z "$user_login" ]; then
+    echo "there is no digitalocean_droplet and $user is not logged in"
+#   
+elif [ "$droplet_running" ] && [ "$user_login" ]
+then
+    echo "digitalocean_droplet $droplet_names and $user is logged in"
+    echo "Not doing any thing!"
+elif [ "$droplet_running" ] && [ -z "$user_login" ] || [ -z "$user" ]]
+then
+    echo "there is digitalocean_droplet $droplet_names and $user is not logged in"
+    echo "Destroying droplets"
+    /usr/bin/terraform destroy -auto-approve
+else
+  echo "Hannn!"
+fi
+
+popd > /dev/null
