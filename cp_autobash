@@ -1,4 +1,15 @@
 #!/bin/bash
+if [ -z "$CONDA_DIR" ]
+then
+    if [ ! -f $CONDA_DIR/bin/python ]; then
+        echo "CONDA_DIR is not a path to anaconda directory, pyhton not found in conda path!"
+        return -1
+    fi
+    echo "please set 'CONDA_DIR' varible to anaconda path!"
+else
+    echo "Anaconda path : "$CONDA_DIR
+fi
+
 PROJECTS_HOME="$( dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" )"
 echo "PROJECTS_HOME: $PROJECTS_HOME"
 LOCAL_AUTOBASH_DIR=~/.autobash
@@ -13,6 +24,7 @@ echo "PIP_PATH: $PIP_PATH"
 cp_autobash() {
     /bin/cp /etc/skel/.bashrc ~/
     cat $PROJECTS_HOME/autobash/bashrc_append >> ~/.bashrc
+    echo 'export CONDA_DIR='$CONDA_DIR >> ~/.bashrc
     echo "copied bashrc"
     cp $PROJECTS_HOME/autobash/aliases ~/.bash_aliases
     echo "copied bash_aliases"
