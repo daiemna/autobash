@@ -19,5 +19,6 @@ alias startnb='jupyter notebook'
 alias nb2pdf='jupyter nbconvert --to latex --post PDF'
 condaforge() { conda install -c conda-forge "$@" ;}
 alias activate="source activate"
+export PIP_CONFIG_FILE="/etc/pip.conf"
 
 source $HOME/.anaconda-compspec
