@@ -1,5 +1,5 @@
 #/usr/bin/env bash
-_anaconda_envs_autocompelte()
+_terraform_autocomplete()
 {
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
         return
@@ -11,4 +11,4 @@ _anaconda_envs_autocompelte()
     fi
 }
 
-complete -F _anaconda_envs_autocompelte terraform
+complete -F _terraform_autocomplete terraform
