@@ -1,5 +1,5 @@
 #/usr/bin/env bash
-_anaconda_envs_autocompelte()
+_anaconda_envs_autocomplete()
 {
     if [ "${#COMP_WORDS[@]}" != "2" ]; then
         return
@@ -10,4 +10,4 @@ _anaconda_envs_autocompelte()
     fi
 }
 
-complete -F _anaconda_envs_autocompelte activate
+complete -F _anaconda_envs_autocomplete activate
