@@ -8,7 +8,7 @@ fi
 
 function condapy() {
      local RED="\[\033[0;31m\]"
-     PATH=$HOME/anaconda3/bin:$PATH
+     PATH=$CONDA_DIR/bin:$PATH
      export PS1="$RED[CONDA3] $PS1"
  }
 
