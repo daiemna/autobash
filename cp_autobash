@@ -36,6 +36,11 @@ cp_autobash() {
     echo "downloaded fzf_snippets"
     cp $PROJECTS_HOME/autobash/anaconda-compspec ~/.anaconda-compspec
     cp $PROJECTS_HOME/autobash/terrform-compspec ~/.terrform-compspec 
+    if test ! -e /usr/local/bin/starship; then
+        echo "installing startship bash theme"
+        curl -fsSL https://starship.rs/install.sh | bash
+    fi
+    cp $PROJECTS_HOME/autobash/starship.toml $HOME/.config/
 }
 cp_autobash
 

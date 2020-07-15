@@ -1,0 +1,9 @@
+# Replace the "❯" symbol in the prompt with "➜"
+[character]      # The name of the module we are configuring is "character"
+error_symbol = "✗"
+use_symbol_for_status = true
+# symbol = "➜"     # The "symbol" segment is being set to "➜"
+
+[conda]
+symbol = "€ "
+style = "fg:dimmed red"

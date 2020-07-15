@@ -6,13 +6,14 @@ then
     source ~/.bashrc
 fi
 
-function condapy() {
-     local RED="\[\033[0;31m\]"
-     PATH=$CONDA_DIR/bin:$PATH
-     export PS1="$RED[CONDA3] $PS1"
- }
+# function condapy() {
+#      local RED="\[\033[0;31m\]"
+#      PATH=$CONDA_DIR/bin:$PATH
+#      export PS1="$RED[CONDA3] $PS1"
+# }
 
-condapy
+# condapy
+PATH=$CONDA_DIR/bin:$PATH
 
 alias ipy='jupyter qtconsole'
 alias startnb='jupyter notebook'
