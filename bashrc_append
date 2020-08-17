@@ -59,7 +59,7 @@ prompt
 # AUTOBASH - Add autobash bin to path
 ################################################################################
 export PATH=~/.autobash/bin:$PATH
-
+export EDITOR="/usr/bin/code"
 ###############################################################################
 # AUTOBASH - USER SECTION
 ################################################################################
@@ -84,8 +84,15 @@ gittagdelete() {
   fi
 }
 source ~/.terrform-compspec
+export GOPRIVATE=gitlab.internal.graphicx.net
 ############################### AUTOBASH - END #################################
+
+export CONDA_DIR=$HOME/anaconda3
+
+GOROOT="$HOME/golang/go"
+GOPATH="$HOME/go"
+
+PATH=$GOROOT/bin:$CONDA_DIR/bin:$PATH
 
 eval "$(starship init bash)"
 
-PATH=$CONDA_DIR/bin:$PATH
