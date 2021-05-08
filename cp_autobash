@@ -40,7 +40,7 @@ cp_autobash() {
         echo "installing startship bash theme"
         curl -fsSL https://starship.rs/install.sh | bash
     fi
-    cp $PROJECTS_HOME/autobash/starship.toml $HOME/.config/
+    cp $PROJECTS_HOME/autobash/configs/starship.toml $HOME/.config/
 }
 cp_autobash
 
