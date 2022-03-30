@@ -10,6 +10,7 @@ alias edit-bashrc=$EDITOR' ~/.bashrc'
 alias anaconda3='bash --rcfile ~/.conda_bashrc3'
 alias tolower='python -c "import sys;print(sys.stdin.read().lower())"'
 alias uuidstring='python -c "import uuid,sys; print(uuid.UUID(sys.stdin.read(32)))"'
+alias myip="wget -qO- http://ipecho.net/plain"
 
 function open-nautilus() {
     PWD=$(pwd)
@@ -27,3 +28,20 @@ PROJECTS_HOME="$( dirname "$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )" )"
 # Autobash User Section
 
 # Autobash - End
+
+# project: autobash
+alias cd-autobash='cd /home/'$USER'/autobash'
+alias atom-autobash='atom -n /home/'$USER'/autobash /home/'$USER'/pytk'
+alias cp-autobash='source /home/'$USER'/autobash/cp_autobash'
+
+# autobash-tools
+alias autobash-get-protemplates=$CONDA_DIR'/bin/python /home/'$USER'/autobash/tools/protemplates.py --local_directory /home/'$USER'/.autobash'
+alias autobash-get-rmate=$CONDA_DIR'/bin/python /home/'$USER'/autobash/tools/rmate.py --local_directory /home/'$USER'/.autobash'
+alias autobash-get-youtube-dl=$CONDA_DIR'/bin/python /home/'$USER'/autobash/tools/youtube-dl.py --local_directory /home/'$USER'/.autobash'
+alias autobash-get-bazel=$CONDA_DIR'/bin/python /home/'$USER'/autobash/tools/bazel.py --local_directory /home/'$USER'/.autobash'
+
+
+alias rgvpnlogin='pushd /home/'$USER'/vpn_config/nexocraft/Daiem.ali@87.138.226.29 && sudo openvpn --config /home/'$USER'/vpn_config/nexocraft/Daiem.ali@87.138.226.29/Daiem.ali@87.138.226.29.ovpn'
+alias tolower='python -c "import sys;print(sys.stdin.read().lower(),end=\"\")"'
+alias toupper='python -c "import sys;print(sys.stdin.read().upper(),end=\"\")"'
+alias unescape='python -c "import sys;print(sys.stdin.read().encode().decode(\"unicode_escape\"),end=\"\")"'
