@@ -1,0 +1,220 @@
+#!/bin/zsh
+echo "---------------"
+echo "ZSHTK PROJECTS"
+
+# The PROJECTS_HOME variable is taken as the first argument when called by the cp_autobash
+PROJECTS_HOME=$1
+echo "PROJECTS_HOME: $PROJECTS_HOME"
+
+####################################
+########### USER CONFIG ############
+##################################################################################
+# User must manually enter project names and `alias` and `anaconda` configuration.
+# SYNTAX: "<project_name>     ;<alias_config>;<anaconda_config>;<terminator_config>;<pgroup_config>"
+##################################################################################
+PROJECTS=(
+"autobash;aliases;no_anaconda;no_terminator;no_pgroup"
+)
+
+#========================
+# DOCUMENTATION???
+# project_extra_aliases, single string multiple lines for more aliases
+# project_extra_condaenv, single string multiple lines for more aliases
+#========================
+# autobash
+autobash_extra_aliases="alias cp-autobash='source $PROJECTS_HOME/autobash/zsh/cp_autobash'"
+
+
+###################################################
+# TERMINATOR -1: Create backup of terminator config
+###################################################
+echo "----------------------"
+echo "TERMINATOR CONFIG: CREATE BACKUP"
+$CONDA_DIR/bin/python $PROJECTS_HOME/autobash/terminator_config.py --create_backup
+
+
+##################################################################
+# AUTOMATING ALIASES and ANACONDA BASHRC CREATION FOR ALL PROJECTS
+##################################################################
+for i in "${PROJECTS[@]}"
+do
+    echo "----------------------"
+    arr=(${i//;/ })
+    project=${arr[0]}
+    aliases=${arr[1]}
+    condaenv=${arr[2]}
+    terminator=${arr[3]}
+    pgroup=${arr[4]}
+
+    ############################################################################
+    # PROJECT GROUP (PGROUP)
+    ############################################################################
+    ###################################################
+    # pgroup 1: IF "no_pgroup"
+    ###################################################
+    if [ "$pgroup" == "no_pgroup" ]
+    then
+        echo "PROJECT HOME + PROJECT GROUP (PHOME): $PROJECTS_HOME"
+        PHOME=$PROJECTS_HOME
+
+
+    ###################################################
+    # PHOME 2: IF "no_phome"
+    ###################################################
+    else
+      echo "PROJECT HOME + PROJECT GROUP (PHOME): $PROJECTS_HOME/$pgroup"
+      PHOME="$PROJECTS_HOME/$pgroup"
+    fi
+
+
+    ############################################################################
+    # ALIASES
+    ############################################################################
+    ##############################
+    # ALIASES 1: IF "aliases"
+    ##############################
+    if [ "$aliases" == "aliases" ]
+    then
+        echo "PROJECT $project: Creating aliases"
+
+
+        #----------------------------------------------
+        # APPENDING STANDARD ALIASES TO ~/.zsh_aliases
+        #----------------------------------------------
+        echo "
+# project: $project
+alias cd-$project='cd $PHOME/$project'
+alias atom-$project='atom -n $PHOME/$project $PROJECTS_HOME/pytk'" >> ~/.zsh_aliases
+
+
+        #-------------------------------------------
+        # APPENDING EXTRA ALIASES TO ~/.zsh_aliases
+        #-------------------------------------------
+        project_safe=$(echo ${project//-/_})
+        extra_aliases_var_name="${project_safe}_extra_aliases"
+        extra_aliases_var_value=$(eval "echo \$${extra_aliases_var_name}")
+        if [ -z "${extra_aliases_var_value}" ]
+        then
+          echo "PROJECT $project: Not creating extra aliases"
+        else
+          echo "PROJECT $project: Creating extra aliases"
+          echo "${extra_aliases_var_value}" >> ~/.zsh_aliases
+        fi
+
+
+    ######################################
+    # ALIASES 2: IF "no_aliases"
+    #####################################
+    else
+        echo "PROJECT $project: Not creating aliases"
+    fi
+
+
+    ############################################################################
+    # ANACONDA
+    ############################################################################
+    ###########################################
+    # ANACONDA 2: IF "anaconda3"
+    ###########################################
+    if [ "$condaenv" == "anaconda3" ]
+    then
+        echo "PROJECT $project: Creating conda_zshrc3 file"
+
+        #----------------------------------------
+        # CREATING CONDA_BASHRC3 FILE FOR PROJECT
+        #----------------------------------------
+        conda_zshrc_filename="$HOME/.autobash/conda_zshrc3_$project"
+        echo "PROJECT $project: $conda_zshrc_filename"
+        mkdir -p "$(dirname "$conda_zshrc_filename")"
+
+
+        #------------------------------------------------------
+        # APPENDING CONDA BASHRC2 FILE WITH ENVIRONMENT DETAILS
+        #------------------------------------------------------
+        echo "#!/bin/zsh
+echo \"CONDA-BASHRC 3 $project\"
+
+if [ -f ~/.zshrc ]
+then
+    source ~/.zshrc
+fi
+
+function condapy() {
+     local RED=\"\[\033[0;31m\]\"
+     PATH=\$HOME/anaconda3/bin:\$PATH
+     export PS1=\"\$RED[CONDA3] \$PS1\"
+ }
+
+condapy
+
+alias ipy='jupyter qtconsole'
+alias startnb='jupyter notebook'
+alias nb2pdf='jupyter nbconvert --to latex --post PDF'
+condaforge() { conda install -c conda-forge \"\$@\" ;}
+
+source activate $project" > $conda_zshrc_filename
+
+
+        #--------------------------------------------------
+        # APPENDING EXTRA CONDAENV TO PROJECT CONDA BASHRC2
+        #--------------------------------------------------
+        extra_condaenv_var_name="${project_safe}_extra_condaenv"
+        extra_condaenv_var_value=$(eval "echo \$${extra_condaenv_var_name}")
+        if [ -z "${extra_condaenv_var_value}" ]
+        then
+          echo "PROJECT $project: Not creating extra condev"
+        else
+          echo "PROJECT $project: Creating extra condev"
+          echo "${extra_condaenv_var_value}" >> $conda_zshrc_filename
+        fi
+
+
+        #--------------------------------------------------------
+        # APPENDING CONDAENV ALIAS TO ~/.zsh_aliases FOR PROJECT
+        #--------------------------------------------------------
+        echo "alias anaconda3-${project}='zsh --rcfile ${conda_zshrc_filename}'" >> ~/.zsh_aliases
+
+
+
+    ###################################################
+    # ANACONDA 3: IF "no_anaconda"
+    ###################################################
+    else
+        # If no anaconda, then the default zshrc is anaconda3 for the sake of terminator
+        conda_zshrc_filename="$HOME/.conda_zshrc3"
+        echo "PROJECT $project: Not creating project conda_zshrc file."
+    fi
+
+    ############################################################################
+    # TERMINATOR
+    ############################################################################
+    ###################################################
+    # TERMINATOR 1: IF "terminator"
+    ###################################################
+    if [ "$terminator" == "terminator" ]
+    then
+        echo "PROJECT $project: Appending project and terminator config backup and aliases"
+        echo "alias terminator-$project='terminator -l autobash-$project'" >> ~/.zsh_aliases
+        $CONDA_DIR/bin/python $PROJECTS_HOME/autobash/terminator_config.py --append_backup $project $PHOME/$project $conda_zshrc_filename
+
+
+    ###################################################
+    # TERMINATOR 2: IF "no_terminator"
+    ###################################################
+    else
+        echo "PROJECT $project: Not appending project to terminator config backup."
+    fi
+
+
+#################
+# AUTOMATING DONE
+#################
+done
+
+
+###################################################
+# TERMINATOR -2: Create backup of terminator config
+###################################################
+echo "----------------------"
+echo "TERMINATOR CONFIG: USE BACKUP"
+$CONDA_DIR/bin/python $PROJECTS_HOME/autobash/terminator_config.py --use_backup

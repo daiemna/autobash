@@ -1,0 +1,61 @@
+autoload -Uz compinit
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+# __conda_setup="$(${CONDA_DIR}'/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#     eval "$__conda_setup"
+# else
+#     if [ -f "${CONDA_DIR}/etc/profile.d/conda.sh" ]; then
+#         . "${CONDA_DIR}/etc/profile.d/conda.sh"
+#     else
+#         export PATH="${CONDA_DIR}/bin:$PATH"
+#     fi
+# fi
+# unset __conda_setup
+# <<< conda initialize <<<
+
+##################### AUTOBASH ######################
+# The following lines have been added by Autobash.
+#####################################################
+
+# Source zsh aliases
+if [ -f ~/.zsh_aliases ]; then
+    . ~/.zsh_aliases
+fi
+
+################################################################################
+# AUTOBASH - Add autobash bin to path
+################################################################################
+PATH+=:~/.autobash/bin
+export EDITOR="code"
+PATH+=:/usr/local/go/bin:$HOME/go/bin/
+
+###############################################################################
+# AUTOBASH - USER SECTION
+################################################################################
+# Install FZF
+if [ ! -d ~/.fzf ]; then
+    git clone --depth 1 https://github.com/nitred/fzf.git ~/.fzf
+    ~/.fzf/install --key-bindings --completion --no-update-rc
+fi
+
+# For FZF
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+HISTSIZE=20000
+HISTFILESIZE=40000
+
+export GOPRIVATE=github.ibm.com
+############################### AUTOBASH - END #################################
+
+export CONDA_DIR=$HOME/opt/anaconda3
+
+export POETRY_CONFIG_DIR="~/.config/pypoetry"
+
+GOROOT="$HOME/golang/go"
+GOPATH="$HOME/go"
+
+PATH+=:$GOROOT/bin:$CONDA_DIR/bin
+PATH+=:$HOME/.poetry/bin
+eval "$(starship init zsh)"
+

@@ -1,0 +1,63 @@
+#!/bin/zsh
+if [ -z "$CONDA_DIR" ]
+then
+    if [ ! -f $CONDA_DIR/bin/python ]; then
+        echo "CONDA_DIR is not a path to anaconda directory, pyhton not found in conda path!"
+        return -1
+    fi
+    echo "please set 'CONDA_DIR' varible to anaconda path!"
+else
+    echo "Anaconda path : "$CONDA_DIR
+fi
+
+PROJECTS_HOME="$( pwd )"
+echo "PROJECTS_HOME: $PROJECTS_HOME"
+LOCAL_AUTOBASH_DIR=~/.autobash
+echo "LOCAL_AUTOBASH_DIR: $LOCAL_AUTOBASH_DIR"
+PYTHON_PATH=$CONDA_DIR/bin/python
+echo "PYTHON_PATH: $PYTHON_PATH"
+PIP_PATH=$CONDA_DIR/bin/pip
+echo "PIP_PATH: $PIP_PATH"
+
+
+# Copy files to HOME_DIR
+cp_autobash() {
+    echo "export PROJECTS_HOME=$PROJECTS_HOME" > ~/.zshrc
+    cat $PROJECTS_HOME/autobash/zsh/zshrc_append >> ~/.zshrc
+    echo 'export CONDA_DIR='$CONDA_DIR >> ~/.zshrc
+    echo "copied zshrc"
+    cp $PROJECTS_HOME/autobash/zsh/aliases ~/.zsh_aliases
+    echo "copied zsh_aliases"
+    cp $PROJECTS_HOME/autobash/zsh/conda_zshrc3 ~/.conda_zshrc3
+    echo "copied conda_zshrc3"
+    wget -O ~/.fzf_snippets https://gist.githubusercontent.com/nitred/84e11ef8b96454d39e9639ab82d9058a/raw/.fzf_snippets
+    echo "downloaded fzf_snippets"
+    git clone https://github.com/esc/conda-zsh-completion $HOME/.conda-zsh-completion
+    echo "downloaded anaconda-compspec"
+    if test ! -e /usr/local/bin/starship; then
+        echo "installing startship zsh theme"
+        curl -fsSL https://starship.rs/install.sh | zsh
+    fi
+    cp $PROJECTS_HOME/autobash/configs/starship.toml $HOME/.config/
+}
+cp_autobash
+
+
+# SETUP LOCAL AUTOBASH DIRECTORIES AND DEPENDENCIES
+source $PROJECTS_HOME/autobash/zsh/local_autobash_setup "$LOCAL_AUTOBASH_DIR" "$PIP_PATH"
+
+
+# SOURCE PROJECTS FILE TO APPEND ~/.bash_aliases and create ~/.autobash
+# source $PROJECTS_HOME/autobash/zsh/projects $PROJECTS_HOME
+
+
+# UPDATING TOOL ALIASES IN ZSH_ALIASES
+echo "" >> ~/.zsh_aliases
+echo "# autobash-tools" >> ~/.zsh_aliases
+echo "alias autobash-get-protemplates='$PYTHON_PATH $PROJECTS_HOME/tools/protemplates.py --local_directory "$LOCAL_AUTOBASH_DIR"'" >> ~/.zsh_aliases
+echo "alias autobash-get-rmate='$PYTHON_PATH $PROJECTS_HOME/tools/rmate.py --local_directory "$LOCAL_AUTOBASH_DIR"'" >> ~/.zsh_aliases
+echo "alias autobash-get-bazel='$PYTHON_PATH $PROJECTS_HOME/tools/bazel.py --local_directory "$LOCAL_AUTOBASH_DIR"'" >> ~/.zsh_aliases
+
+
+# SOURCE BASHRC
+source ~/.zshrc

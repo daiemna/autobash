@@ -1,0 +1,21 @@
+echo "CONDA-BASHRC 3"
+conda config --set changeps1 False
+
+PATH=$CONDA_DIR/bin:$PATH
+
+alias ipy='jupyter qtconsole'
+alias startnb='jupyter notebook'
+alias nb2pdf='jupyter nbconvert --to latex --post PDF'
+condaforge() { conda install -c conda-forge "$@" ;}
+alias activate="source activate"
+export PIP_CONFIG_FILE="$HOME/.config/pip/pip.conf"
+
+fpath+=$HOME/.conda-zsh-completion/
+compinit
+
+# :completion:*:*:cp:*
+zstyle ":conda_zsh_completion:*" sort-envs-by-time true
+zstyle ":conda_zsh_completion:*" show-global-envs-first true
+# zstyle ":completion:*:*:activate:*" __conda_envs
+
+conda init zsh 1> /dev/null

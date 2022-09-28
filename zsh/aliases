@@ -1,0 +1,40 @@
+#!/bin/zsh
+
+
+
+# Autobash
+alias srczsh='source ~/.zshrc'
+alias edit-zsh=$EDITOR' ~/.zshrc ~/.zsh_aliases'
+alias edit-zshaliases=$EDITOR' ~/.zsh_aliases'
+alias edit-zshrc=$EDITOR' ~/.zshrc'
+alias anaconda3='source ~/.conda_zshrc3'
+alias uuidstring='python -c "import uuid,sys; print(uuid.UUID(sys.stdin.read(32)))"'
+alias myip="wget -qO- http://ipecho.net/plain"
+
+
+alias ll="ls -alF"
+alias doosh='du -sh'
+alias doosh-list='du -h --max-depth=1'
+alias doosh-list-sort='du -h --max-depth=1| sort -hrk1'
+
+# Autobash User Section
+
+# Autobash - End
+
+# project: autobash
+alias cd-autobash='cd '$PROJECTS_HOME'/autobash'
+alias edit-autobash=$EDITOR' '$PROJECTS_HOME'/autobash'
+alias cp-autobash='source '$PROJECTS_HOME'/autobash/zsh/cp_autobash'
+
+# autobash-tools
+alias autobash-get-protemplates=$CONDA_DIR'/bin/python '$PROJECTS_HOME'/autobash/tools/protemplates.py --local_directory '$HOME'/.autobash'
+alias autobash-get-rmate=$CONDA_DIR'/bin/python '$PROJECTS_HOME'/autobash/tools/rmate.py --local_directory '$HOME'/.autobash'
+alias autobash-get-youtube-dl=$CONDA_DIR'/bin/python '$PROJECTS_HOME'/autobash/tools/youtube-dl.py --local_directory '$HOME'/.autobash'
+alias autobash-get-bazel=$CONDA_DIR'/bin/python '$PROJECTS_HOME'/autobash/tools/bazel.py --local_directory '$HOME'/.autobash'
+
+
+alias tolower='python -c "import sys;print(sys.stdin.read().lower(),end=\"\")"'
+alias toupper='python -c "import sys;print(sys.stdin.read().upper(),end=\"\")"'
+alias unescape='python -c "import sys;print(sys.stdin.read().encode().decode(\"unicode_escape\"),end=\"\")"'
+alias snippet-copy="cat ~/.fzf_snippets | fzf | pbcopy"
+alias uuidlc="uuidgen | tolower"
