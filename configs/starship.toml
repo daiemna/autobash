@@ -1,3 +1,5 @@
+command_timeout = 1000 # ms
+
 # Replace the "❯" symbol in the prompt with "➜"
 [character]      # The name of the module we are configuring is "character"
 error_symbol = "[✗](bold red)"

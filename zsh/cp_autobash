@@ -39,6 +39,13 @@ cp_autobash() {
         curl -fsSL https://starship.rs/install.sh | zsh
     fi
     cp $PROJECTS_HOME/autobash/configs/starship.toml $HOME/.config/
+    echo "installing Sloc Cloc and Code(scc) https://github.com/boyter/scc"
+    brew install scc
+    echo "installing tldr man pages"
+    brew install tldr
+    brew install duf
+    brew install diff-so-fancy
+    brew install navi
 }
 cp_autobash
 

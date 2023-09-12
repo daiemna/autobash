@@ -9,6 +9,7 @@ alias edit-zshaliases=$EDITOR' ~/.zsh_aliases'
 alias edit-zshrc=$EDITOR' ~/.zshrc'
 alias anaconda3='source ~/.conda_zshrc3'
 alias uuidstring='python -c "import uuid,sys; print(uuid.UUID(sys.stdin.read(32)))"'
+alias appendnum='python -c "import sys;[print(f\"{i+1}. {n}\") for i,n in enumerate(sys.stdin.read().split(\"\n\"))]"'
 alias myip="wget -qO- http://ipecho.net/plain"
 
 
@@ -38,3 +39,5 @@ alias toupper='python -c "import sys;print(sys.stdin.read().upper(),end=\"\")"'
 alias unescape='python -c "import sys;print(sys.stdin.read().encode().decode(\"unicode_escape\"),end=\"\")"'
 alias snippet-copy="cat ~/.fzf_snippets | fzf | pbcopy"
 alias uuidlc="uuidgen | tolower"
+alias nrands='python -c "import random,sys;a = [print(random.randint(int(sys.argv[1]),int(sys.argv[2])), end=\" \") for i in range(int(sys.argv[3]))];print()"'
+alias nproc="sysctl -n hw.physicalcpu"
