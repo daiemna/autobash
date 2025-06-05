@@ -59,3 +59,14 @@ userdel new_username  # remove user, with sudo maybe
 rm -r /home/username  # remove user home folder, with sudo maybe
 su - another-user  # switch user
 su -  # switch user root
+################################################################################
+# Fuzzy finder
+################################################################################
+vim $(fzf --preview="cat {}")
+code $(fzf --preview="cat {}")
+
+################################################################################
+# xargs
+################################################################################
+
+ls -d -1 docs/images/* | xargs -I {} sh -c \"git add {} && git commit -m 'ci: added doc image {}' && git push origin main\"

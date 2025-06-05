@@ -3,11 +3,11 @@
 
 
 # Autobash
-alias srczsh='source ~/.zshrc'
+alias srczsh='. ~/.zshrc'
 alias edit-zsh=$EDITOR' ~/.zshrc ~/.zsh_aliases'
 alias edit-zshaliases=$EDITOR' ~/.zsh_aliases'
 alias edit-zshrc=$EDITOR' ~/.zshrc'
-alias anaconda3='source ~/.conda_zshrc3'
+alias anaconda3='. ~/.conda_zshrc3'
 alias uuidstring='python -c "import uuid,sys; print(uuid.UUID(sys.stdin.read(32)))"'
 alias appendnum='python -c "import sys;[print(f\"{i+1}. {n}\") for i,n in enumerate(sys.stdin.read().split(\"\n\"))]"'
 alias myip="wget -qO- http://ipecho.net/plain"
@@ -25,7 +25,7 @@ alias doosh-list-sort='du -h --max-depth=1| sort -hrk1'
 # project: autobash
 alias cd-autobash='cd '$PROJECTS_HOME'/autobash'
 alias edit-autobash=$EDITOR' '$PROJECTS_HOME'/autobash'
-alias cp-autobash='source '$PROJECTS_HOME'/autobash/zsh/cp_autobash'
+alias cp-autobash='. '$PROJECTS_HOME'/autobash/zsh/cp_autobash'
 
 # autobash-tools
 alias autobash-get-protemplates=$CONDA_DIR'/bin/python '$PROJECTS_HOME'/autobash/tools/protemplates.py --local_directory '$HOME'/.autobash'
@@ -38,6 +38,11 @@ alias tolower='python -c "import sys;print(sys.stdin.read().lower(),end=\"\")"'
 alias toupper='python -c "import sys;print(sys.stdin.read().upper(),end=\"\")"'
 alias unescape='python -c "import sys;print(sys.stdin.read().encode().decode(\"unicode_escape\"),end=\"\")"'
 alias snippet-copy="cat ~/.fzf_snippets | fzf | pbcopy"
+
 alias uuidlc="uuidgen | tolower"
+# Generates n rand ints in range (a,b]: nrands a b n
 alias nrands='python -c "import random,sys;a = [print(random.randint(int(sys.argv[1]),int(sys.argv[2])), end=\" \") for i in range(int(sys.argv[3]))];print()"'
 alias nproc="sysctl -n hw.physicalcpu"
+alias restart-podman='podman machine stop && podman machine start'
+# Fuzzy search preview in cat and open in vim.
+alias fzfvim="vim $(fzf --preview="cat {}")"

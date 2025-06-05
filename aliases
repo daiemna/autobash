@@ -45,3 +45,16 @@ alias rgvpnlogin='pushd /home/'$USER'/vpn_config/nexocraft/Daiem.ali@87.138.226.
 alias tolower='python -c "import sys;print(sys.stdin.read().lower(),end=\"\")"'
 alias toupper='python -c "import sys;print(sys.stdin.read().upper(),end=\"\")"'
 alias unescape='python -c "import sys;print(sys.stdin.read().encode().decode(\"unicode_escape\"),end=\"\")"'
+alias restart-podman='podman machine stop && podman machine start'
+alias seq-dir-commit="
+    function _seq_dir_commit() {
+        local dir=$(pwd)
+        local seq=$(seq -f "%03g" 1 1000)
+        for i in $seq; do
+            git add $dir/$i && git commit -m \"Commit $i\"
+        done
+    }
+    _seq_dir_commit
+"
+alias seq-dir-commit-2="ls -d -1 docs/images/* | xargs -I {} sh -c \"git add {} && git commit -m 'ci: added doc image {}' && git push origin main\""
+"
